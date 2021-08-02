@@ -32,33 +32,34 @@ const EntertainmentCardSlider =() => {
     const settings ={   
         infinite:false,
         autoplay:false,
-        slidesToShow: 4,
+        slidesToShow: 5,
         slidesToScroll: 4,
         InitialSlide:0,
-        responsive: [{
-            breakpoints: 1024,
-            settings: {
+        responsive: [
+            {
+              breakpoints: 1024,
+              settings: {
                 slidesToShow: 3,
-                slidesToScroll:2,
-                infinity: true,
+                slidesToScroll: 2,
+                infinite: true,
+              },
             },
-        },
-        {
-            breakpoints: 768,
-            settings:{
+            {
+              breakpoints: 600,
+              settings: {
                 slidesToShow: 2,
-                slidesToScroll:1,
-                InitialSlide:1,
+                slidesToScroll: 1,
+                InitialSlide: 1,
+              },
             },
-        },
-        {
-            breakpoints: 480,
-            settings:{
+            {
+              breakpoints: 480,
+              settings: {
                 slidesToShow: 2,
-                slidesToScroll:1,
+                slidesToScroll: 1,
+              },
             },
-        },
-    ],
+          ],
     };
 
     return (
