@@ -5,10 +5,15 @@ import './index.css';
 import App from './App';
 
 
+//context Provider
+import MovieProvider from './context/Movie.Context';
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-    <App />
+    <MovieProvider>
+      <App />
+    </MovieProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

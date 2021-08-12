@@ -1,7 +1,17 @@
 //infoemation part of poster
-import React from 'react'
+import React, {useContext} from "react";
+
+
+//context
+import { MovieContext } from "../../context/Movie.Context";
 
 const Movieinformation = () => {
+    const {movie} =useContext(MovieContext);
+    //const genres = movie.genres && movie.genres.map(({name}) => name).join(", ");
+    const genres = movie.genres?.map(({name}) => name).join(", ");
+//this technique is optional chaining
+
+
     return (
         <>
             <div className="flex flex-col gap-3 lg:gap-6">
@@ -16,16 +26,16 @@ const Movieinformation = () => {
                 </div>
 
                 {/*title of the movie */}
-                <h1 className="hidden lg:block text-white lg:text-5xl font-bold">Zack Snyder`s Justice League</h1>
+                <h1 className="hidden lg:block text-white lg:text-5xl font-bold">{movie.original_title}</h1>
                 
                 {/*english and all detail */}
                 <div className="flex flex-col-reverse gap-3 lg:gap-5 lg:flex-col">
                   <div className="text-white font-light flex flex-col gap-2">
                       <div className="flex flex-center gap-1 md:px-4">
-                          <h4>English &bull; Languages: </h4>
-                          <h4 className="text-red-600 text-bold"> Audio(1), Subtitle(1)</h4>
+                          <h4>4k &bull; {movie.original_language} </h4>
+                          
                       </div>
-                      <h4 className="md:px-4">4h 1m • Action,Adventure,Fantasy 16+ • 18 Mar,2021</h4>
+                      <h4 className="md:px-4">{(movie.runtime / 60).toFixed(2)} h &bull; {genres} &bull; 16+ </h4>
                   </div>
 
                   {/*buttons */}
