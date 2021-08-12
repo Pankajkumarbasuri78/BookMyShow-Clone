@@ -1,6 +1,8 @@
-import React from "react";
+import React, {useContext,useState, useEffect} from "react";
 import {FaCcVisa, FaCcApplePay} from "react-icons/fa"
-
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import Slider from "react-slick";
 
 
 //component
@@ -11,10 +13,59 @@ import Crewmember from "../components/crewmember/crewmember.component";
 
 
 //config
-import TempPoster from "../config/TempPoster.config"
+//import TempPoster from "../config/TempPoster.config"
+
+
+//context
+import { MovieContext } from "../context/Movie.Context";
+
+
 
 
 const Movie= () => {
+
+  const {id} =useParams();
+  const {movie} =useContext(MovieContext);
+  const [cast, setCast] = useState([]);
+  const [crew, setCrew] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
+  const [recommended, setRecommended] = useState([]);
+
+  useEffect(() => {
+    const requestCast = async() =>{
+      const getCast = await axios.get(`/movie/${id}/credits`);
+      setCast(getCast.data.cast);
+
+    };
+    requestCast();
+  },[id]);
+
+  useEffect(() => {
+    const requestCrew = async() =>{
+      const getCrew = await axios.get(`/movie/${id}/credits`);
+      setCrew(getCrew.data.crew);
+
+    };
+    requestCrew();
+  },[id]);
+
+
+  useEffect(() => {
+    const requestSimilarMovies = async () => {
+        const getSimilarMovies = await axios.get(`/movie/${id}/similar`);
+        setSimilarMovies(getSimilarMovies.data.results);
+    };
+    requestSimilarMovies();
+}, [id]);
+
+useEffect(() => {
+  const requestRecommendedMovies = async () => {
+      const getRecommendedMovies = await axios.get(`/movie/${id}/recommendations`);
+      setRecommended(getRecommendedMovies.data.results);
+  };
+  requestRecommendedMovies();
+}, [id]);
+
 
     const settings = {
         infinite: false,
@@ -49,6 +100,40 @@ const Movie= () => {
         ],
       };
 
+      //setting for cast&crew
+      const settingsCast = {
+        infinite: false,
+        speed: 500,
+        slidesToShow: 6,
+        slidesToScroll: 3,
+        initialSlide: 0,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 3,
+              infinite: true,
+            },
+          },
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 2,
+              initialSlide: 2,
+            },
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1,
+            },
+          },
+        ],
+      };
+
     return (
         <>
         <MovieHero />
@@ -56,7 +141,7 @@ const Movie= () => {
         <div className="my-12 container px-4 lg:w-3/4 lg:ml-20">
             <div className="flex flex-col items-start gap-3 ">
               <h2 className="text-gray-800 font-bold text-2xl">About the movie</h2>
-              <p>Bruce Wayne and Diana Prince try to bring the metahumans of Earth together after the death of Clark Kent. Meanwhile, Darkseid sends Steppenwolf to Earth with an army to subjugate humans.</p>
+              <p>{movie.overview}</p>
             </div>
             <div>
                 <hr className="my-8" /> {/*line */}
@@ -95,42 +180,33 @@ const Movie= () => {
           {/*castmember image */}
           <div className="my-8">
              <h2 className="text-gray-800 font-medium text-2xl mb-4">Cast</h2>
-             <div className="flex flex-wrap gap-4">
-                 <Castmember image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/ben-affleck-292-12-09-2017-05-12-16.jpg"
-                  castname="Ben Affleck"
-                  role="Batman"/>
-                  <Castmember image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/ben-affleck-292-12-09-2017-05-12-16.jpg"
-                  castname="Ben Affleck"
-                  role="Batman"/>
-                  <Castmember image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/ben-affleck-292-12-09-2017-05-12-16.jpg"
-                  castname="Ben Affleck"
-                  role="Batman"/>
-                  <Castmember image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/ben-affleck-292-12-09-2017-05-12-16.jpg"
-                  castname="Ben Affleck"
-                  role="Batman"/>
-              </div>
+             
+               <Slider {...settingsCast}>
+               {cast.map((castdata) => (
+               <Castmember 
+               image={`https://image.tmdb.org/t/p/original${castdata.profile_path}`}
+               castname={castdata.original_name}
+               role={castdata.character}/>
+               ))}
+               </Slider>
+                 
           </div>
 
             <div>
                 <hr className="my-8" /> {/*line */}
             </div> 
-
+            
+            {/*Crewmember image */}
             <div className="my-8">
              <h2 className="text-gray-800 font-medium text-2xl mb-4">Crew</h2>
-             <div className="flex flex-wrap gap-4">
-                 <Crewmember image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/ben-affleck-292-12-09-2017-05-12-16.jpg"
-                  title="Ben Affleck"
-                  role="Batman"/>
-                  <Crewmember image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/ben-affleck-292-12-09-2017-05-12-16.jpg"
-                  title="Ben Affleck"
-                  role="Batman"/>
-                  <Crewmember image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/ben-affleck-292-12-09-2017-05-12-16.jpg"
-                  title="Ben Affleck"
-                  role="Batman"/>
-                  <Crewmember image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/ben-affleck-292-12-09-2017-05-12-16.jpg"
-                  title="Ben Affleck"
-                  role="Batman"/>
-              </div>
+             <Slider {...settingsCast}>
+             {crew.map((crewdata) => (
+                 <Crewmember 
+                 image={`https://image.tmdb.org/t/p/original${crewdata.profile_path}`}
+                 title={crewdata.original_name}
+                 role={crewdata.character}/>
+               ))}
+             </Slider>
           </div>
 
           <div>
@@ -140,7 +216,7 @@ const Movie= () => {
           <div className="my-8">
               <PosterSlider 
               config={settings}
-              images={TempPoster} 
+              images={similarMovies} 
               title="You Might Also Like" 
               isDark={false}/>
           </div>
@@ -153,8 +229,8 @@ const Movie= () => {
           <div className="my-8">
               <PosterSlider 
               config={settings}
-              images={TempPoster} 
-              title="BMS XCLUSIV" 
+              images={recommended} 
+              title="Recommended Movies" 
               isDark={false}/>
           </div>
         </div>
