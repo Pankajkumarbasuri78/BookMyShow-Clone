@@ -9,7 +9,7 @@ import Slider from "react-slick";
 import MovieHero from "../components/MovieHero/MovieHero.component";
 import Castmember from "../components/Castmember/Castmember.component";
 import PosterSlider from "../components/PosterSlider/PosterSlider.component";
-import Crewmember from "../components/crewmember/crewmember.component";
+//import Crewmember from "../components/crewmember/crewmember.component";
 
 
 //config
@@ -27,7 +27,7 @@ const Movie= () => {
   const {id} =useParams();
   const {movie} =useContext(MovieContext);
   const [cast, setCast] = useState([]);
-  const [crew, setCrew] = useState([]);
+  //const [crew, setCrew] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
   const [recommended, setRecommended] = useState([]);
 
@@ -40,14 +40,14 @@ const Movie= () => {
     requestCast();
   },[id]);
 
-  useEffect(() => {
+ /*  useEffect(() => {
     const requestCrew = async() =>{
       const getCrew = await axios.get(`/movie/${id}/credits`);
       setCrew(getCrew.data.crew);
 
     };
     requestCrew();
-  },[id]);
+  },[id]);  */
 
 
   useEffect(() => {
@@ -196,7 +196,7 @@ useEffect(() => {
                 <hr className="my-8" /> {/*line */}
             </div> 
             
-            {/*Crewmember image */}
+           {/**  {/*Crewmember image 
             <div className="my-8">
              <h2 className="text-gray-800 font-medium text-2xl mb-4">Crew</h2>
              <Slider {...settingsCast}>
@@ -207,11 +207,12 @@ useEffect(() => {
                  role={crewdata.character}/>
                ))}
              </Slider>
-          </div>
+          </div>*/}
 
-          <div>
-                <hr className="my-8" /> {/*line */}
-            </div> 
+          {/*<div>
+                <hr className="my-8" /> 
+              </div>     {/*line */}
+          
 
           <div className="my-8">
               <PosterSlider 
